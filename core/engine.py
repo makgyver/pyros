@@ -9,7 +9,7 @@ import utils as ut
 import utils.cvx as utc
 import cvxopt as co
 import cvxopt.solvers as solver
-import random
+
 
 
 '''

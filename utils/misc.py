@@ -8,7 +8,6 @@ import time
 import os
 import pickle
 import utils.cvx as utc
-import logging
 	
 
 def load_dataset(reader):
@@ -79,13 +78,4 @@ def timing(method):
 		return result
 	return timed
 
-
-# Returns the memory usage in MB
-def memory_usage_ps():
-	import subprocess
-	out = subprocess.Popen(['ps', 'v', '-p', str(os.getpid())],
-						stdout=subprocess.PIPE).communicate()[0].split(b'\n')
-	vsz_index = out[0].split().index(b'RSS')
-	mem = float(out[1].split()[vsz_index]) / 1024
-	return mem
 

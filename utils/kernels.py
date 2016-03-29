@@ -5,7 +5,6 @@
 """
 
 import scipy.misc as miscs
-import scipy.special as spc
 import utils as ut
 from cvxopt.lapack import syev
 import numpy as np

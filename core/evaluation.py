@@ -7,8 +7,6 @@
 import numpy as np
 import math
 import utils as ut
-import matplotlib.pyplot as plt
-import logging
 
 
 # Calculates the AUC
