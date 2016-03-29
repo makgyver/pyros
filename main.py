@@ -34,7 +34,6 @@ def main_simple(argv):
 	#################################################
 	# Uncomment *only one* of the 'rec' declaration	#
 	# to test the corresponding algorithm			#
-	# (See the engine.py file for more details)		#
 	#################################################
 	
 	#rec = exp.I2I_Asym_Cos(uci)
