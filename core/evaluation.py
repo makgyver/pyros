@@ -89,7 +89,7 @@ def evaluate(rec, ts):
 		tot["ndcg"] += ndcg
 		tot["ap"] += ap
 		
-		logging.info("%d = {auc:%s, ap:%s, ndcg:%s}" %(i, area, ap, ndcg))
+		#logging.info("%d = {auc:%s, ap:%s, ndcg:%s}" %(i, area, ap, ndcg))
 		
 	for metric in tot:
 		tot[metric] /= float(len(ts.users))
