@@ -11,8 +11,8 @@ data = ds.UDataset(Mapping(), Mapping())
 reader.read(dataset, True) #True means that the ratings are binary
 ```
 
-the code above read the content of the given CSV file (space separated) and
-save it in the dataset variable. In the example the dataset is user-centered,
+the code above reads the content of the given CSV file (space separated) and
+saves it in the dataset variable. In the example the dataset is user-centered,
 that is ratings are stored as set of items rated by a user.
 
 Once the dataset is ready the recommender can be instanciated.
@@ -49,7 +49,7 @@ exp.ECF_OMD(data, lambda_p, sparse)
 ```
 
 where the parameters has the same meaning as in (2) but in this one 'lambda_n'
-is not required (actually it is assumed to be +inf).
+is not required (it is assumed to be +inf).
 
 * Implementation of the algorithm (which is a "kernelification" of ECF-OMD) described in
 "Kernel based collaborative filtering for very large scale top-N item recommendation"
