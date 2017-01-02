@@ -91,7 +91,7 @@ def normalize_vec(v):
 
 
 # Divides the rows for the sum of its elements
-def normalize(X):
+def normalize_rows(X):
 	"""
 	@param X: the matrix
 	@type X: cvxopt dense matrix
@@ -99,11 +99,11 @@ def normalize(X):
 	@rtype: cvxopt dense matrix
 	"""
 	d = diagonal_vec(X*X.T)
-	N = co.sqrt(d.T * ones_vec(X.size[0]))
+	N = co.sqrt(d * ones_vec(X.size[1]).T)
 	return co.div(X,N)
 
 
-# Divides the columns for the sum of its elements
+# Divides the rows for the sum of its elements
 def normalize_cols(X):
 	"""
 	@param X: the matrix
@@ -111,10 +111,9 @@ def normalize_cols(X):
 	@return: the col-normalized matrix
 	@rtype: cvxopt dense matrix
 	"""
-	d = co.matrix([sum(X[:,i]) for i in xrange(X.size[1])])
-	N = co.sqrt(ones_vec(X.size[0]) * d.T)
+	d = diagonal_vec(X.T*X)
+	N = co.sqrt(ones_vec(X.size[0])*d.T)
 	return co.div(X,N)
-
 
 # Divides the columns for the sum of its elements
 def normalize_cols_sparse(X):
@@ -132,6 +131,8 @@ def normalize_cols_sparse(X):
 		V += [(1.0 / N[j]) if N[j] != 0.0 else 0.0]
 	return co.spmatrix(V, I, J)
 
+#def min_enclosing_ball(X):
+	
 
 # Sorts the vector by value
 def sort(v, skip, dec=True):
@@ -152,3 +153,4 @@ def sort(v, skip, dec=True):
 # Applies the sigmoid function to the matrix
 def sigmoid(X):
 	return (1.0 + co.exp(-X))**(-1)
+	

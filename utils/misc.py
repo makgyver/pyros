@@ -12,7 +12,7 @@ import utils.cvx as utc
 
 def load_dataset(reader):
 	uci = reader.read()
-	print uci.num_items()
+	#print uci.num_items()
 	R = uci.to_cvxopt_sparse_matrix()
 	X = utc.normalize_cols_sparse(R)
 	
@@ -74,7 +74,7 @@ def timing(method):
 		#print '%r (%r, %r) %2.2f sec' % \
 		#(method.__name__, args, kw, te-ts)
 		print '%r %r %2.2f sec' %(method.__name__, args, te-ts)
-		logging.debug('%r %r %2.2f sec' %(method.__name__, args, te-ts))
+		#logging.debug('%r %r %2.2f sec' %(method.__name__, args, te-ts))
 		return result
 	return timed
 
