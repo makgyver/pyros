@@ -46,8 +46,6 @@ def normalize(K):
 def spectral_complexity(K):
 	a = ut.cvx.trace(K)
 	b = np.linalg.norm(K, "fro")
-	#print a, b
-	#return ut.cvx.trace(K) / np.linalg.norm(K, "fro")
 	return a / b
 
 
@@ -55,13 +53,14 @@ def spectral_complexity_norm(K):
 	return (spectral_complexity(K) - 1.0) / (np.sqrt(K.size[0]) - 1.0)
 
 
-def tanimoto(X):
+def tanimoto(X, norm=False):
 	d = co.matrix([sum(X[:,i].V) for i in xrange(X.size[1])])
 	Yp = ut.ones_vec(X.size[1]) * d.T
 	Xp = d * ut.ones_vec(X.size[1]).T
 	Kl = X.T * X
 	K = co.div(Kl, Xp + Yp - Kl)
-	#K = ut.kernels.normalize(K)
+	if norm:
+		K = ut.kernels.normalize(K)
 	return K
 
 
@@ -81,7 +80,7 @@ def polynomial(X, b=0.0, d=2.0):
 
 
 @ut.timing
-def superset_kernel(R, k, norm=True):
+def d_kernel(R, k, norm=True):
 	
 	n = R.size[0]
 	m = R.size[1]
@@ -95,8 +94,6 @@ def superset_kernel(R, k, norm=True):
 	X = R.T*R
 	
 	K = co.matrix(0.0, (X.size[0], X.size[1]))
-	#print K.size
-	#K = co.spmatrix(0.0, [], [], X.size)
 	for i in range(m):
 		#if (i+1) % 100 == 0:
 		#	print "%d/%d" %(i+1,m)
@@ -107,13 +104,12 @@ def superset_kernel(R, k, norm=True):
 			#print n_niCk, n_njCk, n_ni_nj_nijCk
 			K[i,j] = K[j,i] = nCk - n_niCk - n_njCk + n_ni_nj_nijCk
 	
-	#print ut.diagonal_vec(K)
 	if norm:
 		K = ut.kernels.normalize(K)		
 	return K
 
 @ut.timing
-def anova_bin_kernel(R, k, norm=True):
+def c_kernel(R, k, norm=True):
 	
 	n = R.size[0]
 	m = R.size[1]
@@ -187,8 +183,7 @@ class Binomemoize():
 			if k not in self.mem[n]:
 				self.mem[n][k] = binom(n, k)
 		else:
-			self.mem[n] = {}
-			self.mem[n][k] = binom(n, k)
+			self.mem[n] = {k : binom(n, k)}
 		
 		return self.mem[n][k]
 
@@ -217,6 +212,7 @@ def k_over_d(k, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij):
 
 	return k_over_d(k-1, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij) - A1 - A2 - A3
 
+
 @ut.timing
 def kd_kernel(R, d, k, norm=True):
 
@@ -241,4 +237,116 @@ def kd_kernel(R, d, k, norm=True):
 		K = ut.kernels.normalize(K)		
 	return K
 	
+
+def my_k_over_d(k, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij):
 	
+	sm = bin.go(n, d)
+	'''
+	for i in range(k):
+		for j in range(i+1):
+			sm -= bin.go(ni_nij, i-j) * bin.go(nj_nij, i-j) * bin.go(nij, j) * bin.go(n_ni_nj_nij, d-2*i+2*j)
+	'''
+	
+	for ik in range(k):
+		for ic in range(max(0, 2*ik-d), ik+1):
+			for ii in range(0, ik-ic+1):
+				for ij in range(0, ik-ic+1):
+					sm -= bin.go(ni_nij, ii) * bin.go(nj_nij, ij) * bin.go(nij, ic) * bin.go(n_ni_nj_nij, d-ii-ij-ic)
+		
+	return sm
+
+@ut.timing
+def my_kd_kernel(R, d, k, norm=True):
+	
+	n = R.size[0]
+	m = R.size[1]
+	X = R.T*R
+	
+	bin = Binomemoize()
+	
+	K = co.matrix(0.0, (m,m))
+	for i in range(m):
+		for j in range(i, m):
+			K[i,j] = K[j,i] = my_k_over_d(k, d, bin, n, int(X[i,j]), int(X[i,i])-int(X[i,j]), int(X[j,j])-int(X[i,j]), n-int(X[i,i])-int(X[j,j])+int(X[i,j]))
+	
+	if norm:
+		for i in range(m):
+			if K[i,i] == 0:
+				K[i,i] = 1.0
+		print K
+		K = ut.kernels.normalize(K)		
+	return K
+
+def bignom(n,k):
+	if n<k:
+		return mp.mpf(0.0)
+	res = mp.mpf(1.0)
+	for i in range(0,k):
+		res = res * mp.mpf(float(n-i)/(k-i))
+	return res
+	
+	
+def dnf_kernel(R, k, s, norm=True):
+		
+	n = R.size[0]
+	m = R.size[1]
+	
+	x_choose_s = {n : bignom(n,s)}
+	nCs = x_choose_s[n]
+	
+	x_choose_k = {nCs : bignom(nCs,k)}
+	a = x_choose_k[nCs]
+	
+	X = R.T*R
+	
+	if k == s == 1:
+		K = X
+	
+	else:
+	
+		K = co.matrix(0.0, (m, m))
+		#K = co.spmatrix(0.0, [], [], X.size)
+		for i in range(m):
+			if (i+1) % 100 == 0:
+				print "%d/%d" %(i+1,m)
+			
+			for j in range(i, m):
+				
+				xii = int(X[i,i])
+				if xii not in x_choose_s:
+					x_choose_s[xii] = bignom(xii, s)
+				nCs_niCs = nCs - x_choose_s[xii]
+				
+				if nCs_niCs not in x_choose_k:
+					x_choose_k[nCs_niCs] = bignom(nCs_niCs, k)
+				b = x_choose_k[nCs_niCs]
+				
+				xjj = int(X[j,j])
+				if xjj not in x_choose_s:
+					x_choose_s[xjj] = bignom(xjj, s)
+				nCs_njCs = nCs - x_choose_s[xjj]
+				
+				if nCs_njCs not in x_choose_k:
+					x_choose_k[nCs_njCs] = bignom(nCs_njCs, k)
+				c = x_choose_k[nCs_njCs]
+				
+				xij = int(X[i,j])
+				if xij not in x_choose_s:
+					x_choose_s[xij] = bignom(xij, s)
+				nCs_niCs_njCs_nijCs = nCs - x_choose_s[xii] - x_choose_s[xjj] + x_choose_s[xij]
+				
+				if nCs_niCs_njCs_nijCs not in x_choose_k:
+					x_choose_k[nCs_niCs_njCs_nijCs] = bignom(nCs_niCs_njCs_nijCs, k)
+				d = x_choose_k[nCs_niCs_njCs_nijCs]
+				
+				K[i,j] = K[j,i] = float(a - c + d - b)
+	
+	if norm:
+		K = ut.kernels.normalize(K)	
+	
+	return K
+
+
+
+
+

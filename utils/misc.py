@@ -7,7 +7,7 @@
 import time
 import os
 import pickle
-import utils.cvx as utc
+import cvx as utc
 	
 
 def load_dataset(reader):
