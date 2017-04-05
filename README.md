@@ -48,7 +48,7 @@ by M.Polato and F. Aiolli
 exp.ECF_OMD(data, lambda_p, sparse)
 ```
 
-where the parameters has the same meaning as in (2) but in this one 'lambda_n'
+where the parameters has the same meaning as in CF_OMD but in this one 'lambda_n'
 is not required (it is assumed to be +inf).
 
 * Implementation of the algorithm (which is a "kernelification" of ECF-OMD) described in
