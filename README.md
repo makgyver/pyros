@@ -53,7 +53,10 @@ is not required (it is assumed to be +inf).
 
 * Implementation of the algorithm (which is a "kernelification" of ECF-OMD) described in
 "Kernel based collaborative filtering for very large scale top-N item recommendation"
-by M.Polato and F. Aiolli
+by M.Polato and F. Aiolli,
+and in
+"Exploiting sparsity to build efficient kernel based collaborative filtering for top-N item recommendation"
+by M.Polato and F. Aiolli.
 
 ```python
 import utils as ut
@@ -63,7 +66,11 @@ rec = exp.CF_KOMD(data, K, lambda_p, sparse)
 
 in this case a kernel 'K' is required as parameter. The code shows an example of linear kernel
 built using the support methods provided by the 'utils' module.
+The 'utils' module includes also the 'kernel' submodule which contains some useful methods
+related to kernels and also some kernel functions implementation as the one described in
 
+"Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"
+by M.Polato and F. Aiolli.
 
 After the instanciation of the recommender it has to be trained:
 
@@ -98,7 +105,7 @@ $ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
 ```
 
 ### Version
-0.9.1
+0.9.3
 
 ### Tech
 
