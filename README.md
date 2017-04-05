@@ -20,7 +20,7 @@ Currently the module offers, beyond the common baselines (e.g., popularity-based
 the following recommendation algorithms:
 
 * Matrix-based implementation of the algorithm described in 
-"Efficient Top-N Recommendation for Very Large Scale Binary Rated Datasets"
+["Efficient Top-N Recommendation for Very Large Scale Binary Rated Datasets"]
 by F. Aiolli, which is based on the asymmetric cosine similarity
 
 ```python
@@ -29,7 +29,7 @@ rec = exp.I2I_Asym_Cos(data, alpha, q)
 
 where 'alpha' is the asimmetric weight and 'q' the locality parameter.
 
-* "Convex AUC Optimization for Top-N Recommendation with Implicit Feedback"
+* ["Convex AUC Optimization for Top-N Recommendation with Implicit Feedback"]
 by F. Aiolli
 
 ```python
@@ -41,7 +41,7 @@ positives and negatives distribution, while 'sparse' is a boolean parameter that
 says whether to use a sparse matrix implementation or not.
 
 * Implementation of the algorithm (which is a simplification of CF-OMD) described in
-"Kernel based collaborative filtering for very large scale top-N item recommendation"
+["Kernel based collaborative filtering for very large scale top-N item recommendation"]
 by M.Polato and F. Aiolli
 
 ```python
@@ -52,10 +52,10 @@ where the parameters has the same meaning as in (2) but in this one 'lambda_n'
 is not required (it is assumed to be +inf).
 
 * Implementation of the algorithm (which is a "kernelification" of ECF-OMD) described in
-"Kernel based collaborative filtering for very large scale top-N item recommendation"
+["Kernel based collaborative filtering for very large scale top-N item recommendation"]
 by M.Polato and F. Aiolli,
 and in
-"Exploiting sparsity to build efficient kernel based collaborative filtering for top-N item recommendation"
+["Exploiting sparsity to build efficient kernel based collaborative filtering for top-N item recommendation"]
 by M.Polato and F. Aiolli.
 
 ```python
@@ -120,4 +120,8 @@ Pyros requires the following python modules:
    [Scikit-learn]: <http://scikit-learn.org/stable/>
    [Numpy]: <http://www.numpy.org/>
    [CVXOPT]: <http://cvxopt.org/>
-
+   ["Convex AUC Optimization for Top-N Recommendation with Implicit Feedback"]: <http://www.math.unipd.it/~aiolli/PAPERS/recsy202s-aiolli.pdf>
+   ["Kernel based collaborative filtering for very large scale top-N item recommendation"]: <https://www.researchgate.net/publication/295080817_Kernel_based_collaborative_filtering_for_very_large_scale_top-N_item_recommendation>
+   ["Exploiting sparsity to build efficient kernel based collaborative filtering for top-N item recommendation"]: <https://www.researchgate.net/publication/311736733_Exploiting_sparsity_to_build_efficient_kernel_based_collaborative_filtering_for_top-N_item_recommendation>
+   ["Efficient Top-N Recommendation for Very Large Scale Binary Rated Datasets"]: <http://www.math.unipd.it/~aiolli/PAPERS/MSD_final.pdf>
+   ["Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"]: <https://www.researchgate.net/publication/311805478_Disjunctive_Boolean_Kernels_for_Collaborative_Filtering_in_Top-N_Recommendation>
