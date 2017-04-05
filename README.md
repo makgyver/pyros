@@ -69,7 +69,7 @@ built using the support methods provided by the 'utils' module.
 The 'utils' module includes also the 'kernel' submodule which contains some useful methods
 related to kernels and also some kernel functions implementation as the one described in
 
-"Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"
+["Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"]
 by M.Polato and F. Aiolli.
 
 After the instanciation of the recommender it has to be trained:
