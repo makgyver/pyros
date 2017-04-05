@@ -66,7 +66,7 @@ rec = exp.CF_KOMD(data, K, lambda_p, sparse)
 
 in this case a kernel 'K' is required as parameter. The code shows an example of linear kernel
 built using the support methods provided by the 'utils' module.
-The 'utils' module includes also the 'kernel' submodule which contains some useful methods
+The 'utils' module includes also the 'kernels' submodule which contains some useful methods
 related to kernels and also some kernel functions implementation as the one described in
 
 ["Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"]
