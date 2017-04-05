@@ -8,11 +8,13 @@ import time
 import os
 import pickle
 import cvx as utc
-	
+import numpy as np
+from sklearn.datasets import dump_svmlight_file
+import mpmath as mp
+
 
 def load_dataset(reader):
 	uci = reader.read()
-	#print uci.num_items()
 	R = uci.to_cvxopt_sparse_matrix()
 	X = utc.normalize_cols_sparse(R)
 	
@@ -58,8 +60,8 @@ def sort(l, skip, dec=True):
 	"""
 	d = {k:l[k] for k in xrange(len(l)) if k not in skip}
 	return sorted(d.keys(),key=lambda s:d[s],reverse=dec)
-
-
+	
+	
 # Calculates the time taken by the given method/function
 def timing(method):
 	"""
@@ -78,4 +80,27 @@ def timing(method):
 		return result
 	return timed
 
+def save_as_svmlight(M, yid, fname):
+	dump_svmlight_file(M[:,[x for x in range(M.shape[1]) if x != yid]], M[:,yid], fname)
 
+
+class Binomemoize():
+	def __init__(self):
+		self.mem = {}
+	
+	def go(self, n, k):
+		if n in self.mem:
+			if k not in self.mem[n]:
+				self.mem[n][k] = binom(n, k)
+		else:
+			self.mem[n] = {k : binom(n, k)}
+		
+		return self.mem[n][k]
+
+def bignom(n,k):
+	if n < k: return mp.mpf(0.0)
+	res = mp.mpf(1.0)
+	for i in range(0,k):
+		res = res * mp.mpf(float(n-i)/(k-i))
+	return res
+	

@@ -153,4 +153,12 @@ def sort(v, skip, dec=True):
 # Applies the sigmoid function to the matrix
 def sigmoid(X):
 	return (1.0 + co.exp(-X))**(-1)
+
+# Calculates the density of the matrix
+def density(X):
+	z = 0
+	for i in range(X.size[0]):
+		for j in range(X.size[1]):
+			z += X[i,j] > 0.0
 	
+	return float(z) / (X.size[0] * X.size[1])
