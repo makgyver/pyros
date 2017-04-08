@@ -23,7 +23,7 @@ def linear(X, norm=True):
 			if K[i,i] == 0:
 				K[i,i] = 1.0
 				
-	return ut.kernels.normalize(K) if norm else K
+	return normalize(K) if norm else K
 	
 
 def normalize(K):
@@ -37,6 +37,12 @@ def normalize(K):
 	YY = co.sqrt(YY)**(-1)
 	return co.mul(K, YY*YY.T)
 
+def force_normalize(K):
+	for i in range(K.size[0]):
+		if K[i,i] == 0:
+			K[i,i] = 1.0
+			
+	return normalize(K)	
 
 def spectral_complexity(K):
 	a = ut.cvx.trace(K)
@@ -54,7 +60,7 @@ def tanimoto(X, norm=False):
 	Xp = d * ut.ones_vec(X.size[1]).T
 	Kl = X.T * X
 	K = co.div(Kl, Xp + Yp - Kl)
-	return ut.kernels.normalize(K) if norm else K
+	return normalize(K) if norm else K
 
 
 def sparse_polynomial(X, c=1.0, d=2):
@@ -70,11 +76,35 @@ def sparse_polynomial(X, c=1.0, d=2):
 
 def polynomial(X, c=0.0, d=2.0, norm=True):
 	K = ((X.T * X) + c)**d
-	return ut.kernels.normalize(K) if norm else K
+	return normalize(K) if norm else K
 
 
 @ut.timing
 def d_kernel(R, k, norm=True):
+	
+	n, m = R.size
+	
+	x_choose_k = [0]*(n+1)
+	for i in range(1, n+1):
+		x_choose_k[i] = binom(i,k)
+	
+	N = (2**k - 2) * x_choose_k[n]
+	
+	X = R.T*R
+	U = co.matrix(1.0, (n,1))
+	K = co.matrix(0.0, (X.size[0], X.size[1]))
+	for i in range(m):
+		#if (i+1) % 100 == 0:
+		#	print "%d/%d" %(i+1,m)
+		for j in range(i, m):
+			r = int(((U - R[:,i]).T*((U - R[:,j])))[0])
+			K[i,j] = K[j,i] = N + x_choose_k[int(X[i,j]) + r]
+	
+	return force_normalize(K) if norm else K
+	
+	
+@ut.timing
+def md_kernel(R, k, norm=True):
 	
 	n, m = R.size
 	
@@ -94,16 +124,29 @@ def d_kernel(R, k, norm=True):
 			n_njCk = x_choose_k[n-int(X[j,j])]
 			n_ni_nj_nijCk = x_choose_k[n+int(-X[i,i] - X[j,j] + X[i,j])]
 			K[i,j] = K[j,i] = nCk - n_niCk - n_njCk + n_ni_nj_nijCk
-	
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
 				
-	return ut.kernels.normalize(K) if norm else K
+	return force_normalize(K) if norm else K
 
 @ut.timing
 def c_kernel(R, k, norm=True):
+	n, m = R.size
+	X = R.T*R
+	U = co.matrix(1.0, (n,1))
+	x_choose_k = [0]*(n+1)
+	for i in range(1, n+1):
+		x_choose_k[i] = binom(i,k)
+
+	K = co.matrix(0.0, (m,m))
+	for i in range(m):
+		for j in range(i, m):
+			r = int(((U - R[:,i]).T*((U - R[:,j])))[0])
+			K[i,j] = K[j,i] = x_choose_k[int(X[i,j]) + r]
+			
+	return force_normalize(K) if norm else K
+
+
+@ut.timing
+def mc_kernel(R, k, norm=True):
 	
 	n, m = R.size
 	X = R.T*R
@@ -117,17 +160,11 @@ def c_kernel(R, k, norm=True):
 		for j in range(i, m):
 			K[i,j] = K[j,i] = x_choose_k[int(X[i,j])]
 			
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
-				
-		K = ut.kernels.normalize(K)		
-	return K
+	return force_normalize(K) if norm else K
 
 
 @ut.timing
-def all_dnf_kernel(R, k, d, norm=True):
+def dnf_kernel(R, k, d, norm=True):
 
 	n, m = R.size
 	X = R.T*R
@@ -144,16 +181,11 @@ def all_dnf_kernel(R, k, d, norm=True):
 			nij = int(X[i,j]) + ((U - R[:,i]).T*((U - R[:,j])))[0]
 			K[i,j] = K[j,i] = C + binom(N + binom(nij, d), k) 
 	
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
-				
-	return ut.kernels.normalize(K)	if norm else K
+	return force_normalize(K) if norm else K
 		
 			
 @ut.timing
-def dnf_kernel(R, k, s, norm=True):
+def mdnf_kernel(R, k, s, norm=True):
 		
 	n, m = R.size
 	
@@ -204,18 +236,70 @@ def dnf_kernel(R, k, s, norm=True):
 				
 				K[i,j] = K[j,i] = float(a - c + d - b)
 	
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
-				
-		K = ut.kernels.normalize(K)	
-	
-	return K
+	return force_normalize(K) if norm else K
 	
 
 @ut.timing
-def mdnf_kernel(R, norm=True):
+def mcnf_kernel(R, d, c, norm=True):
+	n, m = R.size
+		
+	x_choose_d = {n : binom(n, d)}
+	nCd = x_choose_d[n]
+	
+	X = R.T*R
+	
+	if c == d == 1:
+		K = X
+	else:
+		K = co.matrix(0.0, (m, m))
+		for i in range(m):
+			if (i+1) % 100 == 0:
+				print "%d/%d" %(i+1,m)
+			
+			for j in range(i, m):
+					
+				xii = n - int(X[i,i])
+				if xii not in x_choose_d:
+					x_choose_d[xii] = binom(xii, d)
+				
+				xjj = n - int(X[j,j])
+				if xjj not in x_choose_d:
+					x_choose_d[xjj] = binom(xjj, d)
+				
+				xij = n - int(X[i,i]) - int(X[j,j]) + int(X[i,j])
+				if xij not in x_choose_d:
+					x_choose_d[xij] = binom(xij, d)
+				
+				r = nCd - x_choose_d[xii] - x_choose_d[xjj] + x_choose_d[xij]
+				K[i,j] = K[j,i] = binom(r, c)
+	
+	return force_normalize(K) if norm else K
+	
+	
+@ut.timing
+def cnf_kernel(R, d, c, norm=True):
+	n, m = R.size
+		
+	x_choose_k = [0]*(n+1)
+	for i in range(1, n+1):
+		x_choose_k[i] = binom(i, d)
+	
+	N = (2**d - 2) * x_choose_k[n]
+	
+	X = R.T*R
+	U = co.matrix(1.0, (n,1))
+	K = co.matrix(0.0, (X.size[0], X.size[1]))
+	for i in range(m):
+		#if (i+1) % 100 == 0:
+		#	print "%d/%d" %(i+1,m)
+		for j in range(i, m):
+			r = int(((U - R[:,i]).T*((U - R[:,j])))[0])
+			K[i,j] = K[j,i] = binom(N + x_choose_k[int(X[i,j]) + r], c)
+	
+	return force_normalize(K) if norm else K
+
+@ut.timing
+def mdnf_kernel_old(R, norm=True):
 	
 	n, m = R.size
 	X = R.T*R
@@ -225,7 +309,7 @@ def mdnf_kernel(R, norm=True):
 		for j in range(i, m):
 			K[i,j] = K[j,i] = 2.0**int(X[i,j]) - 1.0
 			
-	return ut.kernels.normalize(K) if norm else K
+	return normalize(K) if norm else K
 
 
 
@@ -296,13 +380,7 @@ def kd_kernel(R, d, k, norm=True):
 		for j in range(i, m):
 			K[i,j] = K[j,i] = k_over_d(k, d, bin, n, int(X[i,j]), int(X[i,i] - X[i,j]), int(X[j,j] - X[i,j]), n+int(-X[i,i] - X[j,j] + X[i,j]))
 			
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
-		
-		K = ut.kernels.normalize(K)		
-	return K
+	return force_normalize(K) if norm else K
 
 
 def k_over_d_back(k, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij):
@@ -346,13 +424,8 @@ def kd_kernel_back(R, d, k, norm=True):
 		for j in range(i, m):
 			K[i,j] = K[j,i] = k_over_d_back(k, d, bin, n, int(X[i,j]), int(X[i,i] - X[i,j]), int(X[j,j] - X[i,j]), n+int(-X[i,i] - X[j,j] + X[i,j]))
 			
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
-		
-		K = ut.kernels.normalize(K)		
-	return K
+	return force_normalize(K) if norm else K
+	
 
 def ekd_kernel(R, k, d, norm=True):
 	n, m = R.size
@@ -368,14 +441,8 @@ def ekd_kernel(R, k, d, norm=True):
 				K[i,j] += bin.go(int(X[i,j]), s) * bin.go(int(X[i,i] - X[i,j]), k-s) * bin.go(int(X[j,j] - X[i,j]), k-s) * bin.go(n-int(X[j,j])-int(X[i,i])+int(X[i,j]), d-2*k+s)
 			K[j,i] = K[i,j]
 	
-	if norm:
-		for i in range(m):
-			if K[i,i] == 0:
-				K[i,i] = 1.0
-		
-		K = ut.kernels.normalize(K)	
+	return force_normalize(K) if norm else K
 	
-	return K
 
 def ekd_comb_kernel(R, d, norm=True):
 	n, m = R.size
@@ -383,7 +450,7 @@ def ekd_comb_kernel(R, d, norm=True):
 	for k in range(1,d+1):
 		K += ekd_kernel(R, k, d, False)
 		
-	return ut.kernels.normalize(K)	if norm else K
+	return normalize(K)	if norm else K
 	
 '''
 END OF EXPERIMENTAL PART
