@@ -218,10 +218,10 @@ class UDataset(BaseDataset):
 		return self.count
 
 	def get_items(self, user):
-		return set([i for (i,_) in self.data[user]])
+		return set([i for (i,_) in self.data[user]]) if user in self.data else set()
 
 	def to_numpy_matrix(self):
-		result = np.matrix(0.0, (self.num_users(), self.num_items()))
+		result = np.zeros((self.num_users(), self.num_items()))
 		for u, s in self.data.iteritems():
 			for (i, v) in s:
 				result[u, i] = v.get_float()
@@ -279,10 +279,10 @@ class IDataset(BaseDataset):
 		return self.count
 		
 	def get_users(self, item):
-		return set([u for (u,_) in self.data[item]])
+		return set([u for (u,_) in self.data[item]]) if item in self.data else set()
 
 	def to_numpy_matrix(self):
-		result = np.matrix(0.0, (self.num_users(), self.num_items()))
+		result = np.zeros((self.num_users(), self.num_items()))
 		for i, s in self.data.iteritems():
 			for (u, v) in s:
 				result[u, i] = v.get_float()

@@ -13,6 +13,10 @@ import data.dataset as ds
 from data.mapping import Mapping
 import utils as ut
 import cvxopt as co
+from utils.bool_kernels import *
+import numpy as np
+from MKLpy.metrics.pairwise import monotone_disjunctive_kernel
+import time
 
 
 def main_simple(argv):
@@ -43,8 +47,15 @@ def main_simple(argv):
 	
 	# This predictor with the linear kernel should return 
 	# almost the same result as ECF_OMD
-	K = ut.kernels.normalize(ut.kernels.linear(uci.to_cvxopt_matrix()))
-	rec = exp.CF_KOMD(uci, K)
+	#K = ut.kernels.normalize(ut.kernels.md_kernel(uci.to_cvxopt_matrix(),10))
+	#print K
+	X = np.array(uci.to_cvxopt_matrix())
+	#ts = time.time()
+	K = [k for _,k in fast_generalized_md_kernel(np.dot(X.T,X),uci.num_users(),4)][-1]
+	#te = time.time()
+	#print te-ts
+	print K
+	rec = exp.CF_KOMD(uci, ut.kernels.normalize(co.matrix(K)))
 	
 	#################################################
 	

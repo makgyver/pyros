@@ -75,7 +75,8 @@ def timing(method):
 
 		#print '%r (%r, %r) %2.2f sec' % \
 		#(method.__name__, args, kw, te-ts)
-		print '%r %r %2.2f sec' %(method.__name__, args, te-ts)
+		#print '%r %r %2.2f sec' %(method.__name__, args, te-ts)
+		print '%2.2f sec' %(te-ts)
 		#logging.debug('%r %r %2.2f sec' %(method.__name__, args, te-ts))
 		return result
 	return timed

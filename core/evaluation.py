@@ -77,9 +77,9 @@ def idcg_k(k):
 def evaluate(rec, ts):
 	tot = {"auc":0.0, "ndcg":0.0, "ap":0.0}
 	
-	for i in ts.users:
-		pred = ut.sort(rec.get_scores(i), rec.data.get_items(i))
-		t = ts.get_items(i)
+	for u in ts.users:
+		pred = ut.sort(rec.get_scores(u), rec.data.get_items(u))
+		t = ts.get_items(u)
 		
 		area = auc(pred, t)
 		ndcg = ndcg_k(pred, t)

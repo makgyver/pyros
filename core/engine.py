@@ -9,7 +9,7 @@ import utils as ut
 import utils.cvx as utc
 import cvxopt as co
 import cvxopt.solvers as solver
-
+import core.baseline as base
 
 
 '''
@@ -19,7 +19,7 @@ by F. Aiolli
 '''
 class I2I_Asym_Cos(RecEngine):
 	def __init__(self, data, alpha=0.5, q=1.0):
-		super(self.__class__, self).__init__(data)
+		super(I2I_Asym_Cos, self).__init__(data)
 		self.ratings = self.data.to_cvxopt(True)
 		self.model = None
 		self.alpha = alpha
@@ -50,7 +50,7 @@ by F. Aiolli
 '''
 class CF_OMD(RecEngine):
 	def __init__(self, data, lp=1.0, ln=1000.0, spr=False):
-		super(self.__class__, self).__init__(data)
+		super(CF_OMD, self).__init__(data)
 		self.lambda_p = lp
 		self.lambda_n = ln
 		self.X = utc.normalize_cols(self.data.to_cvxopt(spr))
@@ -106,7 +106,7 @@ by M.Polato and F. Aiolli
 '''
 class ECF_OMD(RecEngine):
 	def __init__(self, data, lp=0.1, spr=False):
-		super(self.__class__, self).__init__(data)
+		super(ECF_OMD, self).__init__(data)
 		self.lambda_p = lp
 		self.X = utc.normalize_cols(self.data.to_cvxopt(spr)).T
 		self.Xn_ave = utc.ones_vec(self.n_items).T * self.X
@@ -166,7 +166,7 @@ by M.Polato and F. Aiolli
 '''
 class CF_KOMD(RecEngine):
 	def __init__(self, data, K=None, lp=0.1, spr=False):
-		super(self.__class__, self).__init__(data)
+		super(CF_KOMD, self).__init__(data)
 		self.lambda_p = lp
 		self.K = K
 		self.q_ = co.matrix(0.0, (self.n_items, 1))
@@ -184,8 +184,8 @@ class CF_KOMD(RecEngine):
 			test_users = range(self.n_users)
 		
 		for i, u in enumerate(test_users):
-			if (i+1) % 100 == 0:
-				print "%d/%d" %(i+1, len(test_users))
+			#if (i+1) % 100 == 0:
+			#	print "%d/%d" %(i+1, len(test_users))
 
 			Xp = list(self.data.get_items(u))
 			np = len(Xp)
@@ -216,3 +216,19 @@ class CF_KOMD(RecEngine):
 	def get_scores(self, u):
 		return self.model[u]
 
+
+class CF_KOMD_CS_POP(CF_KOMD):
+	def __init__(self, data, K=None, lp=0.1, spr=False):
+		super(CF_KOMD_CS_POP, self).__init__(data, K, lp, spr)
+		self.pop_model = base.Popular(data)
+	
+	@ut.timing
+	def train(self, test_users=None):
+		self.pop_model.train()
+		super(self.__class__, self).train(test_users & self.data.users)
+	
+	def get_scores(self, u):
+		if u in self.model:
+			return self.model[u]
+		else:
+			return self.pop_model.get_scores(u)

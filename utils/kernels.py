@@ -117,8 +117,8 @@ def md_kernel(R, k, norm=True):
 	
 	K = co.matrix(0.0, (X.size[0], X.size[1]))
 	for i in range(m):
-		#if (i+1) % 100 == 0:
-		#	print "%d/%d" %(i+1,m)
+		if (i+1) % 100 == 0:
+			print "%d/%d" %(i+1,m)
 		for j in range(i, m):
 			n_niCk = x_choose_k[n-int(X[i,i])]
 			n_njCk = x_choose_k[n-int(X[j,j])]
