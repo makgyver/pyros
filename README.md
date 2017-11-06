@@ -20,6 +20,8 @@ First of all you have to load the dataset. This module provides useful methods
 for reading Comma Separated Values (CSV) files.
 
 ```python
+from pyros.data import CSVReader
+import pyros.data.dataset as ds
 reader = CSVReader("path\to\the\csv\file", " ")
 data = ds.UDataset(Mapping(), Mapping())
 reader.read(dataset, True) #True means that the ratings are binary
@@ -32,6 +34,12 @@ that is ratings are stored as set of items rated by a user.
 ### Creating a recommender
 
 Once the dataset is ready the recommender can be instanciated.
+Firstly, let us import the engine module
+
+```python
+from pyros import engine es exp
+```
+
 Currently the module offers, beyond the common baselines (e.g., popularity-based),
 the following recommendation algorithms:
 
@@ -75,7 +83,7 @@ and in
 by M.Polato and F. Aiolli.
 
 ```python
-import utils as ut
+import pyros.utils as ut
 K = ut.kernels.normalize(ut.kernels.linear(data.to_cvxopt_matrix()))
 rec = exp.CF_KOMD(data, K, lambda_p, sparse)
 ```
@@ -139,7 +147,7 @@ be calculated.
 Finally, the evaluation step is:
 
 ```python
-import core.evaluation as ev
+import pyros.core.evaluation as ev
 result = ev.evaluate(rec, data_test)
 ```
 

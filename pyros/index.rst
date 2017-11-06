@@ -1,6 +1,21 @@
 The PYROS python module offers some tools to build and evaluate
 recommender systems for implicit feedback.
 
+Installation with PyPi
+======================
+
+PYROS is available in the PyPi repository and it can be installed with
+
+.. code:: sh
+
+    pip install mkpyros
+
+and then it can be imported in python with
+
+.. code:: python
+
+    import pyros
+
 Loading a dataset
 =================
 
@@ -9,6 +24,8 @@ methods for reading Comma Separated Values (CSV) files.
 
 .. code:: python
 
+    from pyros.data import CSVReader
+    import pyros.data.dataset as ds
     reader = CSVReader("path\to\the\csv\file", " ")
     data = ds.UDataset(Mapping(), Mapping())
     reader.read(dataset, True) #True means that the ratings are binary
@@ -21,9 +38,15 @@ user.
 Creating a recommender
 ======================
 
-Once the dataset is ready the recommender can be instanciated. Currently
-the module offers, beyond the common baselines (e.g., popularity-based),
-the following recommendation algorithms:
+Once the dataset is ready the recommender can be instanciated. Firstly,
+let us import the engine module
+
+.. code:: python
+
+    from pyros import engine es exp
+
+Currently the module offers, beyond the common baselines (e.g.,
+popularity-based), the following recommendation algorithms:
 
 -  Matrix-based implementation of the algorithm described in `"Efficient
    Top-N Recommendation for Very Large Scale Binary Rated
@@ -73,7 +96,7 @@ where the parameters has the same meaning as in CF\_OMD but in this one
 
 .. code:: python
 
-    import utils as ut
+    import pyros.utils as ut
     K = ut.kernels.normalize(ut.kernels.linear(data.to_cvxopt_matrix()))
     rec = exp.CF_KOMD(data, K, lambda_p, sparse)
 
@@ -150,7 +173,7 @@ Finally, the evaluation step is:
 
 .. code:: python
 
-    import core.evaluation as ev
+    import pyros.core.evaluation as ev
     result = ev.evaluate(rec, data_test)
 
 where 'data\_test' is the test dataset which contains the ratings to
