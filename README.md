@@ -108,7 +108,7 @@ rec = exp.BPRMF(data, factors, learn_rate, num_iters, reg_u, reg_i, reg_bias)
 ```
 
 where 'factors' are the number of latent features, 'learn_rate' is the learning rate, 
-'num_iters' the maximum number of iterations of the algorithm 'reg_i', "reg_u" and "reg_bias"
+'num_iters' the maximum number of iterations of the algorithm 'reg_i', 'reg_u' and 'reg_bias'
 are the regularization parameters for uesrs, items and the bias respectively.
 
 
