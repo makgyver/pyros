@@ -4,14 +4,14 @@ from setuptools import setup
 setup(
   name = 'mkpyros',
   packages = ['pyros'],
-  version = '0.9.10',
+  version = '0.9.12',
   install_requires=[
         "numpy",
         "scipy",
         "cvxopt"
   ],
   license = "MIT",
-  description = 'Python module for building and evaluating recommender systems for implicit feedback.',
+  description = 'Python module for building and evaluating recommender systems for implicit feedback. Full documentation @ http://mkpyros.readthedocs.io/en/latest/',
   author = 'Mirko Polato',
   author_email = 'mak1788@gmail.com',
   url = 'https://github.com/makgyver/pyros',

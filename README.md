@@ -1,6 +1,19 @@
 The PYROS python module offers some tools to build and evaluate recommender 
 systems for implicit feedback.
 
+### Installation with PyPi
+
+PYROS is available in the PyPi repository and it can be installed with
+```sh
+pip install mkpyros
+```
+
+and then it can be imported in python with
+
+```python
+import pyros
+```
+
 ### Loading a dataset
 
 First of all you have to load the dataset. This module provides useful methods
@@ -147,7 +160,7 @@ $ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
 ```
 
 ### Version
-0.9.10
+0.9.12
 
 ### Tech
 
