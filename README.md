@@ -1,4 +1,5 @@
-# PYROS
+The PYROS python module offers some tools to build and evaluate recommender 
+systems for implicit feedback.
 
 ### Loading a dataset
 
