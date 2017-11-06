@@ -1,4 +1,4 @@
-# pyros
+# PYROS
 
 ### Loading a dataset
 
