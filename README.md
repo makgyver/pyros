@@ -92,7 +92,7 @@ and it is also presented in ["One-Class Collaborative Filtering"]
 by Rong Pan, Yunhong Zhou, Bin Cao, Nathan N. Liu, Rajan Lukose, Martin Scholz and Qiang Yang.
 
 ```python
-rec = exp.WRMF(data, latent_factors, alpha, lbda, num_iters=15)
+rec = exp.WRMF(data, latent_factors, alpha, lbda, num_iters)
 ```
 
 where 'latent_factors' are the number of latent features, 'alpha' is the weight value for the ratings, 
@@ -103,7 +103,7 @@ where 'latent_factors' are the number of latent features, 'alpha' is the weight 
 by Steffen Rendle, Christoph Freudenthaler, Zeno Gantner and Lars Schmidt-Thieme.
 
 ```python
-rec = exp.BPRMF(data, factors=40, learn_rate=0.05, num_iters=15, reg_u=0.0025, reg_i=0.0025, reg_bias=0)
+rec = exp.BPRMF(data, factors=40, learn_rate, num_iters, reg_u, reg_i, reg_bias)
 ```
 
 where 'factors' are the number of latent features, 'learn_rate' is the learning rate, 
