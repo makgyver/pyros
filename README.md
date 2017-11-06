@@ -151,7 +151,7 @@ $ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
 
 ### Tech
 
-Pyros requires the following python modules:
+PYROS requires the following python modules:
 
 * [Scikit-learn]
 * [Numpy]
