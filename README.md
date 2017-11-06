@@ -153,13 +153,13 @@ $ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
 
 PYROS requires the following python modules:
 
-* [Scikit-learn]
+* [Scipy]
 * [Numpy]
 * [CVXOPT]
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [Scikit-learn]: <http://scikit-learn.org/stable/>
+   [Scipy]: <https://www.scipy.org/>
    [Numpy]: <http://www.numpy.org/>
    [CVXOPT]: <http://cvxopt.org/>
    ["Convex AUC Optimization for Top-N Recommendation with Implicit Feedback"]: <http://www.math.unipd.it/~aiolli/PAPERS/recsy202s-aiolli.pdf>
