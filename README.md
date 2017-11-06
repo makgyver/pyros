@@ -105,7 +105,7 @@ $ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
 ```
 
 ### Version
-0.9.3
+0.9.5
 
 ### Tech
 
@@ -125,3 +125,7 @@ Pyros requires the following python modules:
    ["Exploiting sparsity to build efficient kernel based collaborative filtering for top-N item recommendation"]: <https://www.researchgate.net/publication/311736733_Exploiting_sparsity_to_build_efficient_kernel_based_collaborative_filtering_for_top-N_item_recommendation>
    ["Efficient Top-N Recommendation for Very Large Scale Binary Rated Datasets"]: <http://www.math.unipd.it/~aiolli/PAPERS/MSD_final.pdf>
    ["Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"]: <https://www.researchgate.net/publication/311805478_Disjunctive_Boolean_Kernels_for_Collaborative_Filtering_in_Top-N_Recommendation>
+   ["Classification of categorical data in the feature space of monotone DNFs"]: <https://link.springer.com/chapter/10.1007/978-3-319-68612-7_32>
+   ["BPR: Bayesian personalized ranking from implicit feedback"]: <https://dl.acm.org/citation.cfm?id=1795167>
+   ["Sparse linear methods with side information for top-n recommendations"]: <https://dl.acm.org/citation.cfm?id=2365983>
+   ["Collaborative Filtering for Implicit Feedback Datasets"]: <http://ieeexplore.ieee.org/document/4781121/>

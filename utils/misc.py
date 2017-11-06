@@ -75,8 +75,7 @@ def timing(method):
 
 		#print '%r (%r, %r) %2.2f sec' % \
 		#(method.__name__, args, kw, te-ts)
-		#print '%r %r %2.2f sec' %(method.__name__, args, te-ts)
-		print '%2.2f sec' %(te-ts)
+		print '%r %r %2.2f sec' %(method.__name__, args, te-ts)
 		#logging.debug('%r %r %2.2f sec' %(method.__name__, args, te-ts))
 		return result
 	return timed
@@ -104,4 +103,24 @@ def bignom(n,k):
 	for i in range(0,k):
 		res = res * mp.mpf(float(n-i)/(k-i))
 	return res
-	
+
+
+class fast_sparse_matrix():
+	def __init__(self,X,col_view=None):
+		self.X = X.tocsr()
+		if col_view is not None:
+			self.col_view = col_view
+		else:
+			# create the columnar index matrix
+			ind = self.X.copy()
+			ind.data = np.arange(self.X.nnz)
+			self.col_view = ind.tocsc()
+
+	@property
+	def shape(self):
+		return self.X.shape
+
+	def fast_get_col(self,j):
+		col = self.col_view[:,j].copy()
+		col.data = self.X.data[col.data]
+		return col

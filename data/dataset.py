@@ -128,7 +128,7 @@ class BaseDataset(object):
 		@return: the cvxopt rating matrix corresponding to the dataset
 		@rtype: cvxopt matrix
 		"""
-		return self.to_cvxopt_matrix() if spr else self.to_cvxopt_sparse_matrix()
+		return self.to_cvxopt_matrix() if not spr else self.to_cvxopt_sparse_matrix()
 	
 	# Returns the numpy rating matrix corresponding to the dataset
 	def to_numpy(self, spr=False):
@@ -138,7 +138,7 @@ class BaseDataset(object):
 		@return: the numpy rating matrix corresponding to the dataset
 		@rtype: numpy matrix
 		"""
-		return self.to_numpy_matrix() if spr else self.to_numpy_sparse_matrix()
+		return self.to_numpy_matrix() if not spr else self.to_numpy_sparse_matrix()
 	
 
 #Generic RS dataset

@@ -15,8 +15,6 @@ import utils as ut
 import cvxopt as co
 from utils.bool_kernels import *
 import numpy as np
-from MKLpy.metrics.pairwise import monotone_disjunctive_kernel
-import time
 
 
 def main_simple(argv):
@@ -25,14 +23,14 @@ def main_simple(argv):
 	
 	# LOAD DATASET
 	reader = CSVReader(path_tr, separator)
-	uci = ds.UDataset(Mapping(), Mapping())
-	reader.read(uci, True)
+	train_set = ds.UDataset(Mapping(), Mapping())
+	reader.read(train_set, True)
 	#
 
 	# LOAD TESTSET
 	rdte = CSVReader(path_ts, separator)
-	ucits = ds.UDataset(uci.user_mapping, uci.item_mapping)
-	rdte.read(ucits, True)
+	test_set = ds.UDataset(train_set.user_mapping, train_set.item_mapping)
+	rdte.read(test_set, True)
 	#
 	
 	#################################################
@@ -40,30 +38,25 @@ def main_simple(argv):
 	# to test the corresponding algorithm			#
 	#################################################
 	
-	#rec = exp.I2I_Asym_Cos(uci)
-	#rec = exp.CF_OMD(uci)
-	#rec = exp.ECF_OMD(uci)
+	#rec = exp.I2I_Asym_Cos(train_set)
+	#rec = exp.CF_OMD(train_set)
+	#rec = exp.ECF_OMD(train_set)
+	#rec = exp.WRMF(train_set)
+	#rec = exp.SLIM(train_set)
+	#rec = exp.BPRMF(train_set)
 	
-	
-	# This predictor with the linear kernel should return 
-	# almost the same result as ECF_OMD
-	#K = ut.kernels.normalize(ut.kernels.md_kernel(uci.to_cvxopt_matrix(),10))
-	#print K
-	X = np.array(uci.to_cvxopt_matrix())
-	#ts = time.time()
-	K = [k for _,k in fast_generalized_md_kernel(np.dot(X.T,X),uci.num_users(),4)][-1]
-	#te = time.time()
-	#print te-ts
-	print K
-	rec = exp.CF_KOMD(uci, ut.kernels.normalize(co.matrix(K)))
+	X = np.array(train_set.to_cvxopt_matrix())
+	d = 4
+	K = md_kernel(X.T, d)
+	rec = exp.CF_KOMD(train_set, ut.kernels.normalize(co.matrix(K)))
 	
 	#################################################
 	
 	print "Training..."
-	rec.train(ucits.users)
+	rec.train(test_set.users)
 	
 	print "Evaluation..."
-	result = ev.evaluate(rec, ucits)
+	result = ev.evaluate(rec, test_set)
 	
 	print "Done!"
 	print result
