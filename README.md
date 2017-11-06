@@ -72,6 +72,44 @@ related to kernels and also some kernel functions implementation as the one desc
 ["Disjunctive Boolean Kernels for Collaborative Filtering in Top-N Recommendation"]
 by M.Polato and F. Aiolli.
 
+* Implementation of the algorithm SLIM described in
+["Sparse linear methods with side information for top-n recommendations"]
+by Xia Ning and George Karypis.
+
+```python
+rec = exp.SLIM(data, beta, lbda)
+```
+
+where 'beta' and 'lbda' are the regularization of the frobenius norm and the 
+Taxicab norm, respectively, as described in the paper.
+
+* Implementation of the algorithm WRMF described in
+["Collaborative Filtering for Implicit Feedback Datasets"]
+by Yifan Hu, Yehuda Koren and Chris Volinsky, 
+and it is also presented in ["One-Class Collaborative Filtering"]
+by Rong Pan, Yunhong Zhou, Bin Cao, Nathan N. Liu, Rajan Lukose, Martin Scholz and Qiang Yang.
+
+```python
+rec = exp.WRMF(data, latent_factors, alpha, lbda, num_iters=15)
+```
+
+where 'latent_factors' are the number of latent features, 'alpha' is the weight value for the ratings, 
+'lbda' the regularization parameter and 'num_iters' the maximum number of iterations of the algorithm.
+
+* Implementation of the algorithm BPRMF described in
+["BPR: Bayesian personalized ranking from implicit feedback"]
+by Steffen Rendle, Christoph Freudenthaler, Zeno Gantner and Lars Schmidt-Thieme.
+
+```python
+rec = exp.BPRMF(data, factors=40, learn_rate=0.05, num_iters=15, reg_u=0.0025, reg_i=0.0025, reg_bias=0)
+```
+
+where 'factors' are the number of latent features, 'learn_rate' is the learning rate, 
+'num_iters' the maximum number of iterations of the algorithm 'reg_i', "reg_u" and "reg_bias"
+are the regularization parameters for uesrs, items and the bias respectively.
+
+
+
 After the instanciation of the recommender it has to be trained:
 
 ```python
@@ -129,3 +167,4 @@ Pyros requires the following python modules:
    ["BPR: Bayesian personalized ranking from implicit feedback"]: <https://dl.acm.org/citation.cfm?id=1795167>
    ["Sparse linear methods with side information for top-n recommendations"]: <https://dl.acm.org/citation.cfm?id=2365983>
    ["Collaborative Filtering for Implicit Feedback Datasets"]: <http://ieeexplore.ieee.org/document/4781121/>
+   ["One-Class Collaborative Filtering"]: <https://dl.acm.org/citation.cfm?id=1511402>

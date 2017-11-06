@@ -307,10 +307,13 @@ class SLIM(RecEngine):
 Implementation of the algorithm WRMF described in
 "Collaborative Filtering for Implicit Feedback Datasets"
 by Yifan Hu, Yehuda Koren and Chris Volinsky
+and in 
+"One-Class Collaborative Filtering"
+by Rong Pan, Yunhong Zhou, Bin Cao, Nathan N. Liu, Rajan Lukose, Martin Scholz and Qiang Yang
 '''
 class WRMF(RecEngine):
 	'''
-	d : int
+	latent_factors : int
 		Number of latent factors.
 	alpha : float
 		Confidence weight, confidence c = 1 + alpha*r where r is the observed "rating".
@@ -379,7 +382,7 @@ Implementation of the algorithm BPRMF described in
 by Steffen Rendle, Christoph Freudenthaler, Zeno Gantner and Lars Schmidt-Thieme
 '''
 class BPRMF(RecEngine):
-	def __init__(self, data, factors=40, learn_rate=0.05, num_iters=1, 
+	def __init__(self, data, factors=40, learn_rate=0.05, num_iters=15, 
 				 init_mean=0.1, init_stdev=0.1, reg_u=0.0025, reg_i=0.0025, reg_bias=0):
 		super(self.__class__, self).__init__(data)
 
