@@ -103,7 +103,7 @@ where 'latent_factors' are the number of latent features, 'alpha' is the weight 
 by Steffen Rendle, Christoph Freudenthaler, Zeno Gantner and Lars Schmidt-Thieme.
 
 ```python
-rec = exp.BPRMF(data, factors=40, learn_rate, num_iters, reg_u, reg_i, reg_bias)
+rec = exp.BPRMF(data, factors, learn_rate, num_iters, reg_u, reg_i, reg_bias)
 ```
 
 where 'factors' are the number of latent features, 'learn_rate' is the learning rate, 
