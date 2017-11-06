@@ -1,6 +1,6 @@
 # pyros
 
-### How to load a dataset
+### Loading a dataset
 
 First of all you have to load the dataset. This module provides useful methods
 for reading Comma Separated Values (CSV) files.
@@ -15,7 +15,7 @@ the code above reads the content of the given CSV file (space separated) and
 saves it in the dataset variable. In the example the dataset is user-centered,
 that is ratings are stored as set of items rated by a user.
 
-### How to create a recommender
+### Creating a recommender
 
 Once the dataset is ready the recommender can be instanciated.
 Currently the module offers, beyond the common baselines (e.g., popularity-based),
@@ -111,7 +111,7 @@ where 'factors' are the number of latent features, 'learn_rate' is the learning 
 are the regularization parameters for uesrs, items and the bias respectively.
 
 
-### How to train a recommender
+### Training a recommender
 After the instanciation of the recommender it has to be trained:
 
 ```python
@@ -121,7 +121,7 @@ rec.train(users)
 where 'users' is the list of users for which the items ranking will
 be calculated.
 
-### How to evaluate a recommender
+### Evaluating a trained recommender
 Finally, the evaluation step is:
 
 ```python
