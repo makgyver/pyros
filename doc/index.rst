@@ -172,7 +172,7 @@ use the following command
 Version
 =======
 
-0.9.7
+0.9.8
 
 Tech
 ====

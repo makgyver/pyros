@@ -147,7 +147,7 @@ $ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
 ```
 
 ### Version
-0.9.5
+0.9.8
 
 ### Tech
 
