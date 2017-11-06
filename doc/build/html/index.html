@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mkpyros latest documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="None" href="index.html#document-index"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://mkpyros.readthedocs.io/en/latest/" />
+
+<link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'index'
+</script>
+
+<script type="text/javascript" src="_static/readthedocs-dynamic-include.js"></script>
+
+<!-- end RTD <extrahead> --></head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html#document-index" class="icon icon-home"> mkpyros
+          
+
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html#document-index">mkpyros</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html#document-index">Docs</a> &raquo;</li>
+        
+      <li>mkpyros latest documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/makgyver/pyros/blob/master/./index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>The PYROS python module offers some tools to build and evaluate
+recommender systems for implicit feedback.</p>
+<div class="section" id="loading-a-dataset">
+<h1>Loading a dataset<a class="headerlink" href="#loading-a-dataset" title="Permalink to this headline">¶</a></h1>
+<p>First of all you have to load the dataset. This module provides useful
+methods for reading Comma Separated Values (CSV) files.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">reader</span> <span class="o">=</span> <span class="n">CSVReader</span><span class="p">(</span><span class="s2">&quot;path</span><span class="se">\t</span><span class="s2">o</span><span class="se">\t</span><span class="s2">he\csv</span><span class="se">\f</span><span class="s2">ile&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">UDataset</span><span class="p">(</span><span class="n">Mapping</span><span class="p">(),</span> <span class="n">Mapping</span><span class="p">())</span>
+<span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="c1">#True means that the ratings are binary</span>
+</pre></div>
+</div>
+<p>the code above reads the content of the given CSV file (space separated)
+and saves it in the dataset variable. In the example the dataset is
+user-centered, that is ratings are stored as set of items rated by a
+user.</p>
+</div>
+<div class="section" id="creating-a-recommender">
+<h1>Creating a recommender<a class="headerlink" href="#creating-a-recommender" title="Permalink to this headline">¶</a></h1>
+<p>Once the dataset is ready the recommender can be instanciated. Currently
+the module offers, beyond the common baselines (e.g., popularity-based),
+the following recommendation algorithms:</p>
+<ul class="simple">
+<li>Matrix-based implementation of the algorithm described in <a class="reference external" href="http://www.math.unipd.it/~aiolli/PAPERS/MSD_final.pdf">&#8220;Efficient
+Top-N Recommendation for Very Large Scale Binary Rated
+Datasets&#8221;</a>
+by F. Aiolli, which is based on the asymmetric cosine similarity</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rec</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">I2I_Asym_Cos</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;alpha&#8217; is the asimmetric weight and &#8216;q&#8217; the locality parameter.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.math.unipd.it/~aiolli/PAPERS/recsy202s-aiolli.pdf">&#8220;Convex AUC Optimization for Top-N Recommendation with Implicit
+Feedback&#8221;</a>
+by F. Aiolli</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rec</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">CF_OMD</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">lambda_p</span><span class="p">,</span> <span class="n">lambda_n</span><span class="p">,</span> <span class="n">sparse</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;lambda_p&#8217;, &#8216;lambda_n&#8217; are respectively the regularization terms
+for the positives and negatives distribution, while &#8216;sparse&#8217; is a
+boolean parameter that says whether to use a sparse matrix
+implementation or not.</p>
+<ul class="simple">
+<li>Implementation of the algorithm (which is a simplification of CF-OMD)
+described in <a class="reference external" href="https://www.researchgate.net/publication/295080817_Kernel_based_collaborative_filtering_for_very_large_scale_top-N_item_recommendation">&#8220;Kernel based collaborative filtering for very large
+scale top-N item
+recommendation&#8221;</a>
+by M.Polato and F. Aiolli</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">.</span><span class="n">ECF_OMD</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">lambda_p</span><span class="p">,</span> <span class="n">sparse</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where the parameters has the same meaning as in CF_OMD but in this one
+&#8216;lambda_n&#8217; is not required (it is assumed to be +inf).</p>
+<ul class="simple">
+<li>Implementation of the algorithm (which is a &#8220;kernelification&#8221; of
+ECF-OMD) described in <a class="reference external" href="https://www.researchgate.net/publication/295080817_Kernel_based_collaborative_filtering_for_very_large_scale_top-N_item_recommendation">&#8220;Kernel based collaborative filtering for very
+large scale top-N item
+recommendation&#8221;</a>
+by M.Polato and F. Aiolli, and in <a class="reference external" href="https://www.researchgate.net/publication/311736733_Exploiting_sparsity_to_build_efficient_kernel_based_collaborative_filtering_for_top-N_item_recommendation">&#8220;Exploiting sparsity to build
+efficient kernel based collaborative filtering for top-N item
+recommendation&#8221;</a>
+by M.Polato and F. Aiolli.</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">utils</span> <span class="k">as</span> <span class="nn">ut</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">ut</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">to_cvxopt_matrix</span><span class="p">()))</span>
+<span class="n">rec</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">CF_KOMD</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">lambda_p</span><span class="p">,</span> <span class="n">sparse</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>in this case a kernel &#8216;K&#8217; is required as parameter. The code shows an
+example of linear kernel built using the support methods provided by the
+&#8216;utils&#8217; module. The &#8216;utils&#8217; module includes also the &#8216;kernels&#8217; submodule
+which contains some useful methods related to kernels and also some
+kernel functions implementation as the one described in</p>
+<p><a class="reference external" href="https://www.researchgate.net/publication/311805478_Disjunctive_Boolean_Kernels_for_Collaborative_Filtering_in_Top-N_Recommendation">&#8220;Disjunctive Boolean Kernels for Collaborative Filtering in Top-N
+Recommendation&#8221;</a>
+by M.Polato and F. Aiolli.</p>
+<ul class="simple">
+<li>Implementation of the algorithm SLIM described in <a class="reference external" href="https://dl.acm.org/citation.cfm?id=2365983">&#8220;Sparse linear
+methods with side information for top-n
+recommendations&#8221;</a> by
+Xia Ning and George Karypis.</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rec</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">SLIM</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">lbda</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;beta&#8217; and &#8216;lbda&#8217; are the regularization of the frobenius norm and
+the Taxicab norm, respectively, as described in the paper.</p>
+<ul class="simple">
+<li>Implementation of the algorithm WRMF described in <a class="reference external" href="http://ieeexplore.ieee.org/document/4781121/">&#8220;Collaborative
+Filtering for Implicit Feedback
+Datasets&#8221;</a> by Yifan
+Hu, Yehuda Koren and Chris Volinsky, and it is also presented in
+<a class="reference external" href="https://dl.acm.org/citation.cfm?id=1511402">&#8220;One-Class Collaborative
+Filtering&#8221;</a> by Rong
+Pan, Yunhong Zhou, Bin Cao, Nathan N. Liu, Rajan Lukose, Martin
+Scholz and Qiang Yang.</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rec</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">WRMF</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">latent_factors</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;latent_factors&#8217; are the number of latent features, &#8216;alpha&#8217; is
+the weight value for the ratings, &#8216;lbda&#8217; the regularization parameter
+and &#8216;num_iters&#8217; the maximum number of iterations of the algorithm.</p>
+<ul class="simple">
+<li>Implementation of the algorithm BPRMF described in <a class="reference external" href="https://dl.acm.org/citation.cfm?id=1795167">&#8220;BPR: Bayesian
+personalized ranking from implicit
+feedback&#8221;</a> by Steffen
+Rendle, Christoph Freudenthaler, Zeno Gantner and Lars
+Schmidt-Thieme.</li>
+</ul>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rec</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">BPRMF</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">learn_rate</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">,</span> <span class="n">reg_u</span><span class="p">,</span> <span class="n">reg_i</span><span class="p">,</span> <span class="n">reg_bias</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;factors&#8217; are the number of latent features, &#8216;learn_rate&#8217; is the
+learning rate, &#8216;num_iters&#8217; the maximum number of iterations of the
+algorithm &#8216;reg_i&#8217;, &#8216;reg_u&#8217; and &#8216;reg_bias&#8217; are the regularization
+parameters for uesrs, items and the bias respectively.</p>
+</div>
+<div class="section" id="training-a-recommender">
+<h1>Training a recommender<a class="headerlink" href="#training-a-recommender" title="Permalink to this headline">¶</a></h1>
+<p>After the instanciation of the recommender it has to be trained:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rec</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;users&#8217; is the list of users for which the items ranking will be
+calculated.</p>
+</div>
+<div class="section" id="evaluating-a-trained-recommender">
+<h1>Evaluating a trained recommender<a class="headerlink" href="#evaluating-a-trained-recommender" title="Permalink to this headline">¶</a></h1>
+<p>Finally, the evaluation step is:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">core.evaluation</span> <span class="k">as</span> <span class="nn">ev</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">rec</span><span class="p">,</span> <span class="n">data_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where &#8216;data_test&#8217; is the test dataset which contains the ratings to
+predict (unknown at training time!!). The evaluation is done using AUC,
+mAP and NDCG.</p>
+<p>For more details please refer to the papers and to the code.</p>
+</div>
+<div class="section" id="for-the-lazy-people">
+<h1>For the lazy people :)<a class="headerlink" href="#for-the-lazy-people" title="Permalink to this headline">¶</a></h1>
+<p>In order to try the recommendation algorithm with the default dataset
+use the following command</p>
+<div class="code sh highlight-default"><div class="highlight"><pre><span></span>$ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
+</pre></div>
+</div>
+</div>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<p>0.9.5</p>
+</div>
+<div class="section" id="tech">
+<h1>Tech<a class="headerlink" href="#tech" title="Permalink to this headline">¶</a></h1>
+<p>PYROS requires the following python modules:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.scipy.org/">Scipy</a></li>
+<li><a class="reference external" href="http://www.numpy.org/">Numpy</a></li>
+<li><a class="reference external" href="http://cvxopt.org/">CVXOPT</a></li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016.
+      
+        <span class="commit">
+          Revision <code>21517a4e</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="/en/latest/">latest</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="//readthedocs.org/projects/mkpyros/downloads/pdf/latest/">pdf</a></dd>
+        
+          <dd><a href="//readthedocs.org/projects/mkpyros/downloads/htmlzip/latest/">htmlzip</a></dd>
+        
+          <dd><a href="//readthedocs.org/projects/mkpyros/downloads/epub/latest/">epub</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="//readthedocs.org/projects/mkpyros/?fromdocs=mkpyros">Project Home</a>
+          </dd>
+          <dd>
+            <a href="//readthedocs.org/builds/mkpyros/?fromdocs=mkpyros">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'latest',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
