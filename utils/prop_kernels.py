@@ -1,3 +1,9 @@
+"""
+@author: Mirko Polato
+@contact: mpolato@math.unipd.it
+@organization: University of Padua
+"""
+
 import cvxopt as co
 
 def KLIN(X):
