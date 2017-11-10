@@ -1,1 +1,4 @@
 *.pyc
+mkpyros.egg-info
+dist
+
