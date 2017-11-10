@@ -180,7 +180,7 @@ where 'data\_test' is the test dataset which contains the ratings to
 predict (unknown at training time!!). The evaluation is done using AUC,
 mAP and NDCG.
 
-For more details please refer to the papers and to the code @ `GITHUB <https://github.com/makgyver/pyros>`.
+For more details please refer to the papers and to the code @ `GITHUB <https://github.com/makgyver/pyros>`__.
 
 Version
 =======
