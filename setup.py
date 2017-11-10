@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
   name = 'mkpyros',
   packages = ['pyros'],
-  version = '0.9.16',
+  version = '0.9.16b',
   install_requires=[
         "numpy",
         "scipy",

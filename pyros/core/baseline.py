@@ -5,7 +5,7 @@
 """
 
 import cvxopt as co
-import utils.cvx as ut
+import pyros.utils.cvx as ut
 from recommender import RecEngine
 
 
