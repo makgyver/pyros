@@ -1,10 +1,10 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 #from distutils.core import setup
 
 setup(
   name = 'mkpyros',
-  packages = ['pyros'],
-  version = '0.9.16b',
+  packages = find_packages(exclude=['build', '_docs', 'templates']),
+  version = '0.9.19',
   install_requires=[
         "numpy",
         "scipy",
