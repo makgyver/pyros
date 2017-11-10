@@ -155,23 +155,12 @@ where 'data_test' is the test dataset which contains the ratings
 to predict (unknown at training time!!).
 The evaluation is done using AUC, mAP and NDCG.
 
-For more details please refer to the papers and to the code.
-
-
-### For the lazy people :)
-
-In order to try the recommendation algorithm with the default
-dataset use the following command
-
-```sh
-$ python main.py ./datasets/ml1m.tr ./datasets/ml1m.te
-```
+For more details please refer to the papers and to the code @ [GITHUB].
 
 ### Version
-0.9.19
+0.9.20
 
 ### Tech
-
 PYROS requires the following python modules:
 
 * [Scipy]
@@ -179,7 +168,8 @@ PYROS requires the following python modules:
 * [CVXOPT]
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
+   
+   [GITHUB]: <https://github.com/makgyver/pyros>
    [Scipy]: <https://www.scipy.org/>
    [Numpy]: <http://www.numpy.org/>
    [CVXOPT]: <http://cvxopt.org/>

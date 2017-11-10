@@ -142,7 +142,18 @@ def c_kernel(R, k, norm=True):
 
 
 def mc_kernel(R, k, norm=True):
-	K = binom(R.T*R,k)
+	n, m = R.size
+	X = R.T*R
+
+	x_choose_k = [0]*(n+1)
+	for i in range(1, n+1):
+		x_choose_k[i] = binom(i,k)
+
+	K = co.matrix(0.0, (m,m))
+	for i in range(m):
+		for j in range(i, m):
+			K[i,j] = K[j,i] = x_choose_k[int(X[i,j])]
+			
 	return force_normalize(K) if norm else K
 
 def dnf_kernel(R, k, d, norm=True):
