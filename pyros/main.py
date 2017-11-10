@@ -6,14 +6,14 @@
 
 import sys
 
-from data.reader import CSVReader
-import core.engine as exp
-import core.evaluation as ev
-import data.dataset as ds
-from data.mapping import Mapping
-import utils as ut
+from pyros.data.reader import CSVReader
+import pyros.core.engine as exp
+import pyros.core.evaluation as ev
+import pyros.data.dataset as ds
+from pyros.data.mapping import Mapping
+import pyros.utils as ut
 import cvxopt as co
-from utils.bool_kernels import *
+from pyros.utils.bool_kernels import *
 import numpy as np
 
 
@@ -47,7 +47,7 @@ def main_simple(argv):
 	
 	X = np.array(train_set.to_cvxopt_matrix())
 	d = 4
-	K = md_kernel(X.T, d)
+	K = mc_kernel(X.T, d)
 	rec = exp.CF_KOMD(train_set, ut.kernels.normalize(co.matrix(K)))
 	
 	#################################################
