@@ -10,7 +10,6 @@ import pickle
 import cvx as utc
 import numpy as np
 from sklearn.datasets import dump_svmlight_file
-import mpmath as mp
 
 
 def load_dataset(reader):

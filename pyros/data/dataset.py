@@ -7,7 +7,7 @@
 import cvxopt as co
 from scipy import sparse
 from mapping import IdentityMapping
-from data.reader import Value
+from reader import Value
 import numpy as np
 
 

@@ -6,13 +6,12 @@
 
 import scipy.misc as miscs
 from scipy.special import binom
-import utils as ut
-from utils.misc import bignom, Binomemoize
+import cvx
+from misc import bignom, Binomemoize
 from cvxopt.lapack import syev
 import numpy as np
 import cvxopt as co
 import math
-import mpmath as mp
 
 
 def linear(X, norm=True):
@@ -33,7 +32,7 @@ def normalize(K):
 	@return: the row-normalized matrix
 	@rtype: cvxopt dense matrix
 	"""
-	YY = ut.cvx.diagonal_vec(K)
+	YY = cvx.diagonal_vec(K)
 	YY = co.sqrt(YY)**(-1)
 	return co.mul(K, YY*YY.T)
 
@@ -45,7 +44,7 @@ def force_normalize(K):
 	return normalize(K)	
 
 def spectral_complexity(K):
-	a = ut.cvx.trace(K)
+	a = cvx.trace(K)
 	b = np.linalg.norm(K, "fro")
 	return a / b
 
@@ -56,8 +55,8 @@ def spectral_complexity_norm(K):
 
 def tanimoto(X, norm=False):
 	d = co.matrix([sum(X[:,i].V) for i in xrange(X.size[1])])
-	Yp = ut.ones_vec(X.size[1]) * d.T
-	Xp = d * ut.ones_vec(X.size[1]).T
+	Yp = cvx.ones_vec(X.size[1]) * d.T
+	Xp = d * cvx.ones_vec(X.size[1]).T
 	Kl = X.T * X
 	K = co.div(Kl, Xp + Yp - Kl)
 	return normalize(K) if norm else K
@@ -79,7 +78,6 @@ def polynomial(X, c=0.0, d=2.0, norm=True):
 	return normalize(K) if norm else K
 
 
-@ut.timing
 def d_kernel(R, k, norm=True):
 	
 	n, m = R.size
@@ -103,7 +101,6 @@ def d_kernel(R, k, norm=True):
 	return force_normalize(K) if norm else K
 	
 	
-@ut.timing
 def md_kernel(R, k, norm=True):
 	
 	n, m = R.size
@@ -127,7 +124,6 @@ def md_kernel(R, k, norm=True):
 				
 	return force_normalize(K) if norm else K
 
-@ut.timing
 def c_kernel(R, k, norm=True):
 	n, m = R.size
 	X = R.T*R
@@ -145,13 +141,10 @@ def c_kernel(R, k, norm=True):
 	return force_normalize(K) if norm else K
 
 
-@ut.timing
 def mc_kernel(R, k, norm=True):
 	K = binom(R.T*R,k)
 	return force_normalize(K) if norm else K
 
-
-@ut.timing
 def dnf_kernel(R, k, d, norm=True):
 
 	n, m = R.size
@@ -172,7 +165,6 @@ def dnf_kernel(R, k, d, norm=True):
 	return force_normalize(K) if norm else K
 		
 			
-@ut.timing
 def mdnf_kernel(R, k, s, norm=True):
 		
 	n, m = R.size
@@ -226,8 +218,6 @@ def mdnf_kernel(R, k, s, norm=True):
 	
 	return force_normalize(K) if norm else K
 	
-
-@ut.timing
 def mcnf_kernel(R, d, c, norm=True):
 	n, m = R.size
 		
@@ -264,7 +254,6 @@ def mcnf_kernel(R, d, c, norm=True):
 	return force_normalize(K) if norm else K
 	
 	
-@ut.timing
 def cnf_kernel(R, d, c, norm=True):
 	n, m = R.size
 		
@@ -286,7 +275,7 @@ def cnf_kernel(R, d, c, norm=True):
 	
 	return force_normalize(K) if norm else K
 
-@ut.timing
+
 def mdnf_kernel_old(R, norm=True):
 	
 	n, m = R.size
@@ -302,7 +291,6 @@ def mdnf_kernel_old(R, norm=True):
 
 
 #TESTING STUFF
-@ut.timing
 def mdnf_kernel_norm(R):
 	
 	n, m = R.size
@@ -353,7 +341,7 @@ def k_over_d(k, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij):
 	return k_over_d(k-1, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij) - A1 - A2 - A3
 
 
-@ut.timing
+
 def kd_kernel(R, d, k, norm=True):
 
 	n, m = R.size
@@ -396,8 +384,7 @@ def k_over_d_back(k, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij):
 
 	return k_over_d_back(k+1, d, bin, n, nij, ni_nij, nj_nij, n_ni_nj_nij) + A1 + A2 + A3
 		
-		
-@ut.timing
+
 def kd_kernel_back(R, d, k, norm=True):
 
 	n, m = R.size

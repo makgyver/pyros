@@ -4,15 +4,14 @@
 @organization: University of Padua
 """
 
-from core.recommender import RecEngine
-import utils as ut
-import utils.cvx as utc
+from recommender import RecEngine
+import baseline as base
+import pyros.utils.cvx as utc
 import cvxopt as co
 import cvxopt.solvers as solver
-import core.baseline as base
 import numpy as np
 from scipy.sparse import csr_matrix
-from utils.misc import fast_sparse_matrix
+from pyros.utils.misc import fast_sparse_matrix
 
 '''
 Matrix-based implementation of the algorithm described
@@ -224,7 +223,6 @@ class CF_KOMD_CS_POP(CF_KOMD):
 		super(CF_KOMD_CS_POP, self).__init__(data, K, lp, spr)
 		self.pop_model = base.Popular(data)
 	
-	@ut.timing
 	def train(self, test_users=None):
 		self.pop_model.train()
 		super(self.__class__, self).train(test_users & self.data.users)

@@ -6,7 +6,7 @@
 
 import numpy as np
 import math
-import utils as ut
+from pyros.utils import misc
 
 
 # Calculates the AUC
@@ -78,7 +78,7 @@ def evaluate(rec, ts):
 	tot = {"auc":0.0, "ndcg":0.0, "ap":0.0}
 	
 	for u in ts.users:
-		pred = ut.sort(rec.get_scores(u), rec.data.get_items(u))
+		pred = misc.sort(rec.get_scores(u), rec.data.get_items(u))
 		t = ts.get_items(u)
 		
 		area = auc(pred, t)
