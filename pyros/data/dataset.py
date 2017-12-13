@@ -330,7 +330,7 @@ class FastUDataset(BaseDataset):
 		return self.count
 
 	def get_items(self, user):
-		return self.items
+		return self.data[user] if user in self.data else set()
 
 	def to_numpy_matrix(self):
 		result = np.zeros((self.num_users(), self.num_items()))
