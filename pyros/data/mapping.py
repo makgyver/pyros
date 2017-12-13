@@ -32,6 +32,16 @@ class Mapping(IdentityMapping):
 		self.map_i2e = defaultdict(lambda: -1, self.map_i2e)
 		self.map_e2i = defaultdict(lambda: -1, self.map_e2i)
 		self.size = 0
+		
+	def from_i2e(self, i2e):
+		self.map_i2e = defaultdict(lambda: -1, i2e)
+		self.map_e2i = defaultdict(lambda: -1, {v: k for k, v in i2e.iteritems()})
+		return self
+	
+	def from_e2i(self, e2i):
+		self.map_e2i = defaultdict(lambda: -1, e2i)
+		self.map_i2e = defaultdict(lambda: -1, {v: k for k, v in e2i.iteritems()})
+		return self
 
 	def add(self, explicit):
 		i = self.map_e2i[explicit]
