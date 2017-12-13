@@ -322,7 +322,7 @@ class FastUDataset(BaseDataset):
 	def __init__(self, data, items, user_mapping, item_mapping):
 		super(FastUDataset, self).__init__(user_mapping, item_mapping)
 		self.data = {self.user_mapping.get_implicit(u) : set([self.item_mapping.get_implicit(i) for i in s]) for u,s in data.iteritems()}
-		self.count = len(data)
+		self.count = sum([len(data[u]) for u in data])
 		self.items = items
 		self.users = set(self.data.keys())
 
