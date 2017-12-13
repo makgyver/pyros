@@ -65,6 +65,7 @@ class CSVReader(object):
 	
 	#only implicit feedback (no timestamp)
 	def fast_read(self):
+		import csv
 		data = {}
 		items = set()
 		with open(self.filename, "rb") as f:
