@@ -158,7 +158,7 @@ The evaluation is done using AUC, mAP and NDCG.
 For more details please refer to the papers and to the code @ [GITHUB].
 
 ### Version
-0.9.25
+0.9.26
 
 ### Tech
 PYROS requires the following python modules:
