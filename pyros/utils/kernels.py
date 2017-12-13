@@ -36,6 +36,13 @@ def normalize(K):
 	YY = co.sqrt(YY)**(-1)
 	return co.mul(K, YY*YY.T)
 
+def centering(K):
+	p = K.size[0]
+	ones = cvx.ones_vec(p)
+	C = (1./p) * (K * ones) * ones.T
+	return K - C - C.T + (1./p**2) * sum(K)
+	
+
 def force_normalize(K):
 	for i in range(K.size[0]):
 		if K[i,i] == 0:
@@ -114,8 +121,8 @@ def md_kernel(R, k, norm=True):
 	
 	K = co.matrix(0.0, (X.size[0], X.size[1]))
 	for i in range(m):
-		if (i+1) % 100 == 0:
-			print "%d/%d" %(i+1,m)
+		#if (i+1) % 100 == 0:
+		#	print "%d/%d" %(i+1,m)
 		for j in range(i, m):
 			n_niCk = x_choose_k[n-int(X[i,i])]
 			n_njCk = x_choose_k[n-int(X[j,j])]
@@ -167,8 +174,8 @@ def dnf_kernel(R, k, d, norm=True):
 	U = co.matrix(1.0, (n,1))
 	K = co.matrix(0.0, (m,m))
 	for i in range(m):
-		if (i+1) % 100 == 0:
-			print "%d/%d" %(i+1,m)
+		#if (i+1) % 100 == 0:
+		#	print "%d/%d" %(i+1,m)
 		for j in range(i, m):
 			nij = int(X[i,j]) + ((U - R[:,i]).T*((U - R[:,j])))[0]
 			K[i,j] = K[j,i] = C + binom(N + binom(nij, d), k) 
@@ -193,8 +200,8 @@ def mdnf_kernel(R, k, s, norm=True):
 	else:
 		K = co.matrix(0.0, (m, m))
 		for i in range(m):
-			if (i+1) % 100 == 0:
-				print "%d/%d" %(i+1,m)
+			#if (i+1) % 100 == 0:
+			#	print "%d/%d" %(i+1,m)
 			
 			for j in range(i, m):
 				
@@ -242,8 +249,8 @@ def mcnf_kernel(R, d, c, norm=True):
 	else:
 		K = co.matrix(0.0, (m, m))
 		for i in range(m):
-			if (i+1) % 100 == 0:
-				print "%d/%d" %(i+1,m)
+			#if (i+1) % 100 == 0:
+			#	print "%d/%d" %(i+1,m)
 			
 			for j in range(i, m):
 					
@@ -311,8 +318,8 @@ def mdnf_kernel_norm(R):
 	
 	K = co.matrix(0.0, (m,m))
 	for i in range(m):
-		if (i+1) % 100 == 0:
-			print "%d/%d" %(i+1,m)
+		#if (i+1) % 100 == 0:
+		#	print "%d/%d" %(i+1,m)
 		for j in range(i+1, m):
 			K[i,j] = K[j,i] = float(mp.mpf(2**int(X[i,j]) - 1) / (mp.sqrt(d[i])*mp.sqrt(d[j])))
 			

@@ -316,6 +316,56 @@ class IDataset(BaseDataset):
 		return co.spmatrix(values, rows, cols, (self.num_users(), self.num_items()))
 
 
+#Efficient User-centered RS dataset
+class FastUDataset(BaseDataset):
+
+	def __init__(self, data, items, user_mapping, item_mapping):
+		super(FastUDataset, self).__init__(user_mapping, item_mapping)
+		self.data = {self.user_mapping.get_implicit(u) : set([self.item_mapping.get_implicit(i) for i in s]) for u,s in data.iteritems()}
+		self.count = len(data)
+		self.items = items
+		self.users = set(self.data.keys())
+
+	def num_ratings(self):
+		return self.count
+
+	def get_items(self, user):
+		return self.items
+
+	def to_numpy_matrix(self):
+		result = np.matrix(0.0, (self.num_users(), self.num_items()))
+		for u, s in self.data.iteritems():
+			for i in s:
+				result[u, i] = 1.
+		return result
+
+	def to_numpy_sparse_matrix(self):
+		rows, cols, values = [],[],[]
+		for u, s in self.data.iteritems():
+			for i in s:
+				rows.append(u)
+				cols.append(i)
+				values.append(1.)
+
+		return sparse.coo_matrix((values, (rows, cols)), shape=(self.num_users(), self.num_items()))
+
+	def to_cvxopt_matrix(self):
+		result = co.matrix(0.0, (self.num_users(), self.num_items()))
+		for u, s in self.data.iteritems():
+			for i in s:
+				result[u, i] = 1.
+		return result
+	
+	def to_cvxopt_sparse_matrix(self):
+		rows, cols, values = [], [], []
+		for u, s in self.data.iteritems():
+			for i in s:
+				rows.append(u)
+				cols.append(i)
+				values.append(1.)
+		
+		return co.spmatrix(values, rows, cols, (self.num_users(), self.num_items()))
+
 # Class which represents a scale of values
 class Scale(object):
 

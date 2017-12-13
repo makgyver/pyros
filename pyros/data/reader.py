@@ -62,7 +62,21 @@ class CSVReader(object):
 			return (int(args[0]), int(args[1]), Value(1.0) if self.binarize else Value(float(args[2])))
 		else: #ERROR
 			return (-1, -1, None)
+	
+	#only implicit feedback (no timestamp)
+	def fast_read(self):
+		data = {}
+		items = set()
+		with open(self.filename, "rb") as f:
+			reader = csv.reader(f, delimiter=self.delimiter)
+			
+			for r in reader:		
+				u, i = r[0], r[1]
+				if u not in data: data[u] = set()
+				data[u].add(i)
+				items.add(i)
 
+		return data, items
 
 class MLReader(CSVReader):
 	
