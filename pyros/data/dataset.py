@@ -164,7 +164,7 @@ class Dataset(BaseDataset):
 		return set([i for u,i in self.data if u == user])
 
 	def to_numpy_matrix(self):
-		result = np.matrix(0.0, (self.num_users(), self.num_items()))
+		result = np.zeros((self.num_users(), self.num_items()))
 		for (u, i), v in self.data.iteritems():
 			result[u, i] = v.get_float()
 		return result
@@ -333,7 +333,7 @@ class FastUDataset(BaseDataset):
 		return self.items
 
 	def to_numpy_matrix(self):
-		result = np.matrix(0.0, (self.num_users(), self.num_items()))
+		result = np.zeros((self.num_users(), self.num_items()))
 		for u, s in self.data.iteritems():
 			for i in s:
 				result[u, i] = 1.
