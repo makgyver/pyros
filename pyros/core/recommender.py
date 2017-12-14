@@ -7,7 +7,7 @@
 # Base class for recommendation engine
 class RecEngine(object):
 
-	def __init__(self, data):
+	def __init__(self, data, verbose=True):
 		"""
 		@param data: the dataset
 		@type data: Dataset
@@ -15,6 +15,7 @@ class RecEngine(object):
 		self.data = data
 		self.n_users = data.num_users()
 		self.n_items = data.num_items()
+		self.verbose = verbose
 
 	# Trains the model
 	def train(self, test_users=None):

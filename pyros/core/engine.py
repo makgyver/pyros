@@ -166,8 +166,8 @@ Implementation of the algorithm (which is a "kernelification" of ECF-OMD) descri
 by M.Polato and F. Aiolli
 '''
 class CF_KOMD(RecEngine):
-	def __init__(self, data, K=None, lp=0.1, spr=False):
-		super(CF_KOMD, self).__init__(data)
+	def __init__(self, data, K=None, lp=0.1, spr=False, verbose=True):
+		super(CF_KOMD, self).__init__(data, verbose)
 		self.lambda_p = lp
 		self.K = K
 		self.q_ = co.matrix(0.0, (self.n_items, 1))
@@ -185,8 +185,8 @@ class CF_KOMD(RecEngine):
 			test_users = range(self.n_users)
 		
 		for i, u in enumerate(test_users):
-			#if (i+1) % 100 == 0:
-			#	print "%d/%d" %(i+1, len(test_users))
+			if self.verbose and (i+1) % 100 == 0:
+				print "%d/%d" %(i+1, len(test_users))
 
 			Xp = list(self.data.get_items(u))
 			np = len(Xp)
