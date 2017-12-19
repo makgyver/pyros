@@ -102,3 +102,9 @@ def cnf_kernel(X, d=1, c=1):
 def dnf_kernel(X, d=1, c=1):
 	return [k for _,_,k in fast_generalized_dnf_kernel(np.dot(X,X.T), X.shape[1], d, c)][-1]
 	
+def tanimoto_kernel(X):
+	d = np.array([np.dot(X[i,:],X[i,:].T) for i in xrange(X.shape[0])]).reshape((X.shape[0],1))
+	Xp = np.dot(np.ones((X.shape[0],1)), d.T)
+	Kl = np.dot(X, X.T)
+	K = np.divide(Kl, Xp + Xp.T - Kl)
+	return K

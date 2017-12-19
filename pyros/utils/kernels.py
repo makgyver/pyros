@@ -61,11 +61,10 @@ def spectral_complexity_norm(K):
 
 
 def tanimoto(X, norm=False):
-	d = co.matrix([sum(X[:,i].V) for i in xrange(X.size[1])])
-	Yp = cvx.ones_vec(X.size[1]) * d.T
+	d = co.matrix([X[:,i].T * X[:,i] for i in xrange(X.size[1])])
 	Xp = d * cvx.ones_vec(X.size[1]).T
 	Kl = X.T * X
-	K = co.div(Kl, Xp + Yp - Kl)
+	K = co.div(Kl, Xp + Xp.T - Kl)
 	return normalize(K) if norm else K
 
 
