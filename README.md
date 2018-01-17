@@ -37,7 +37,7 @@ Once the dataset is ready the recommender can be instanciated.
 Firstly, let us import the engine module
 
 ```python
-from pyros import engine es exp
+from pyros import engine as exp
 ```
 
 Currently the module offers, beyond the common baselines (e.g., popularity-based),

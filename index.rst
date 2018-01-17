@@ -43,7 +43,7 @@ let us import the engine module
 
 .. code:: python
 
-    from pyros import engine es exp
+    from pyros import engine as exp
 
 Currently the module offers, beyond the common baselines (e.g.,
 popularity-based), the following recommendation algorithms:
