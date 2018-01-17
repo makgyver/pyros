@@ -66,6 +66,7 @@ class CSVReader(object):
 	#only implicit feedback (no timestamp)
 	def fast_read(self):
 		import csv
+		from pyros.data.mapping import Mapping
 		data = {}
 		items = set()
 		with open(self.filename, "rb") as f:
@@ -76,8 +77,10 @@ class CSVReader(object):
 				if u not in data: data[u] = set()
 				data[u].add(i)
 				items.add(i)
-
-		return data, items
+		
+		umap = Mapping().from_e2i({y:x for x,y in enumerate(sorted(set(data.keys())))})
+		imap = Mapping().from_e2i({y:x for x,y in enumerate(sorted(set(items)))})
+		return data, items, umap, imap
 
 class MLReader(CSVReader):
 	
