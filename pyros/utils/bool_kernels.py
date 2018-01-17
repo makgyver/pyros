@@ -108,3 +108,6 @@ def tanimoto_kernel(X):
 	Kl = np.dot(X, X.T)
 	K = np.divide(Kl, Xp + Xp.T - Kl)
 	return K
+
+def old_dnf_kernel(X):
+	return 2**np.dot(X, X.T) - 1.

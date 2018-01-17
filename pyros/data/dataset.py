@@ -319,7 +319,7 @@ class IDataset(BaseDataset):
 #Efficient User-centered RS dataset
 class FastUDataset(BaseDataset):
 
-	def __init__(self, data, items, user_mapping, item_mapping):
+	def __init__(self, data, items, user_mapping=IdentityMapping(), item_mapping=IdentityMapping()):
 		super(FastUDataset, self).__init__(user_mapping, item_mapping)
 		self.data = {self.user_mapping.get_implicit(u) : set([self.item_mapping.get_implicit(i) for i in s]) for u,s in data.iteritems()}
 		self.count = sum([len(data[u]) for u in data])

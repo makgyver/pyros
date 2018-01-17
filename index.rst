@@ -185,7 +185,7 @@ For more details please refer to the papers and to the code @ `GITHUB <https://g
 Version
 =======
 
-0.9.28
+0.9.29
 
 Tech
 ====
