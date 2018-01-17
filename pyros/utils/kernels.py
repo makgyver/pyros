@@ -28,13 +28,17 @@ def linear(X, norm=True):
 def normalize(K):
 	"""
 	@param K: the matrix
-	@type K: cvxopt dense matrix
+	@type K: cvxopt dense matrix or numpy array
 	@return: the row-normalized matrix
 	@rtype: cvxopt dense matrix
 	"""
-	YY = cvx.diagonal_vec(K)
-	YY = co.sqrt(YY)**(-1)
-	return co.mul(K, YY*YY.T)
+	if type(K) is np.ndarray:
+		d = np.array([[K[i,i] for i in range(K.shape[0])]])
+		return K / np.sqrt(np.dot(d.T,d))
+	else:
+		YY = cvx.diagonal_vec(K)
+		YY = co.sqrt(YY)**(-1)
+		return co.mul(K, YY*YY.T)	
 
 def centering(K):
 	p = K.size[0]
