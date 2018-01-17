@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
   name = 'mkpyros',
   packages = find_packages(exclude=['build', '_docs', 'templates']),
-  version = '0.9.30',
+  version = '0.9.31',
   install_requires=[
         "numpy",
         "scipy",

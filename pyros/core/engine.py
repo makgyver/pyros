@@ -21,7 +21,7 @@ by F. Aiolli
 class I2I_Asym_Cos(RecEngine):
 	def __init__(self, data, alpha=0.5, q=1.0):
 		super(I2I_Asym_Cos, self).__init__(data)
-		self.ratings = self.data.to_cvxopt(True)
+		self.ratings = self.data.to_cvxopt()
 		self.model = None
 		self.alpha = alpha
 		self.locality = q
